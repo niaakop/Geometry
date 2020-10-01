@@ -1,29 +1,24 @@
 module MyModule
-	def pal(s)
-		x = -1
-		y = s.length
-		b = false
+	def palindrome(s)
+		left_letter = -1
+		right_letter = s.length
+		same_letter = false
 		(s.length/2).times do
-			x += 1
-			y -= 1
-			puts x
-			puts y
-			b = s[x] == s[y]
-			puts s[x]
-			puts s[y]
-			puts b
-			if b == false
+			left_letter += 1
+			right_letter -= 1
+			same_letter = s[left_letter] == s[right_letter]
+			if not same_letter 
 				break
 			end
 		end
-		return b
+		return same_letter
 	end
 end	
 
 class MyClass	
 	include MyModule
 	def my_method
-		puts pal("abdcba")
+		puts palindrome("abcdcba")
 	end
 end
 
