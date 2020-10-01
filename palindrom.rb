@@ -5,7 +5,6 @@ def palindrome(word)
 		if word[left_letter_index] != word[length - left_letter_index - 1]
 			return false
 		end
-		left_letter_index += 1
 	end
 	return true
 end
