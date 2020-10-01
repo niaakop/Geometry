@@ -1,26 +1,14 @@
-module MyModule
-	def palindrome(s)
-		left_letter = -1
-		right_letter = s.length
-		same_letter = false
-		(s.length/2).times do
-			left_letter += 1
-			right_letter -= 1
-			same_letter = s[left_letter] == s[right_letter]
-			if not same_letter 
-				break
+	def palindrome(word)
+		left_letter_index = 0
+		length = word.length
+		(length/2).times do
+			right_letter_index = length - left_letter_index - 1
+			if word[left_letter_index] != word[right_letter_index]
+				return false
 			end
+			left_letter_index += 1
 		end
-		return same_letter
+		return true
 	end
-end	
 
-class MyClass	
-	include MyModule
-	def my_method
-		puts palindrome("abcdcba")
-	end
-end
-
-my_ob = MyClass.new
-my_ob.my_method
+puts palindrome("abcddcba")
