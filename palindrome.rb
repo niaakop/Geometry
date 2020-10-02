@@ -1,6 +1,5 @@
 class String
-	def is_palindrome
-		i = 0
+	def is_palindrome?
 		length = self.length
 		(length/2).times do |i|
 			if self[i] != self[length - i - 1]
@@ -10,4 +9,4 @@ class String
 		true
 	end
 end
-puts "abcba".is_palindrome
+puts "abcba".is_palindrome?
