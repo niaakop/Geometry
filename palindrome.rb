@@ -1,12 +1,13 @@
 class String
-	def self.is_palindrome(string)
+	def is_palindrome
 		i = 0
-		length = string.length
+		length = self.length
 		(length/2).times do |i|
-			if string[i] != string[length - i - 1]
+			if self[i] != self[length - i - 1]
 				return false
 			end
 		end
 		true
 	end
 end
+puts "abcba".is_palindrome
