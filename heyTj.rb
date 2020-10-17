@@ -51,12 +51,6 @@ someone.whisper_louder
 #someone.be_nice
 #someone.protected_instanse_method
 
-#me.speak
-#me.whisper
-#me.whisper_louder
-#me.greet
-me.be_nice
-
 you.speak
 #you.whisper
 you.whisper_louder
@@ -65,6 +59,6 @@ you.whisper_louder
 you.your_whisper
 you.your_protected_instanse_method
 
-You.your_public_method
-You.your_greet
-You.your_private_method
+You.person_public_method
+You.person_greet
+You.person_private_method
