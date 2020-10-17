@@ -9,6 +9,7 @@ class SuperClass
 	protected
 	def protected_meth
 		puts "this is protected method"
+	public
 	end
 	def self.public_meth
 		puts "this is public CLASS method"
