@@ -22,6 +22,12 @@ class Me
 end
 
 class You < Person
+  def your_whisper
+    whisper
+  end
+  def your_greet
+    Person.greet
+  end
 end
 
 someone = Person.new
@@ -30,18 +36,19 @@ you = You.new
 someone.speak
 #someone.whisper
 someone.whisper_louder
-#someone.great
+#someone.greet
 #someone.be_nice
 
 #me.speak
 #me.whisper
 #me.whisper_louder
-#me.great
+#me.greet
 me.be_nice
 
 you.speak
 #you.whisper
 you.whisper_louder
-#you.great
+#you.greet
 #you.be_nice
-
+you.your_whisper
+you.your_greet
