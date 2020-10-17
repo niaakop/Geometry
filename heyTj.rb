@@ -24,23 +24,17 @@ class Person
   end
 end
 
-class Me 
-  def be_nice
-    Person.greet
-  end
-end
-
 class You < Person
-  def self.your_public_method
+  def self.person_public_method
     Person.public_method
   end
-  def self.your_greet
+  def self.person_greet
     Person.greet
   end
   def your_protected_instanse_method
     protected_instanse_method
   end
-  def self.your_private_method
+  def self.person_private_method
     Person.private_method
   end
   def your_whisper
@@ -49,13 +43,13 @@ class You < Person
 end
 
 someone = Person.new
-me = Me.new
 you = You.new
 someone.speak
 #someone.whisper
 someone.whisper_louder
 #someone.greet
 #someone.be_nice
+#someone.protected_instanse_method
 
 #me.speak
 #me.whisper
