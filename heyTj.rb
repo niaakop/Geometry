@@ -13,6 +13,7 @@ class Person
   def self.greet
    puts "Hey, wassup!"
   end
+  public
   def self.public_method
     puts "this is public method"
   end
