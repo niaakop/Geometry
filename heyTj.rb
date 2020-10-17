@@ -31,11 +31,20 @@ class Me
 end
 
 class You < Person
+  def self.your_public_method
+    Person.public_method
+  end
+  def self.your_greet
+    Person.greet
+  end
+  def your_protected_instanse_method
+    protected_instanse_method
+  end
+  def self.your_private_method
+    Person.private_method
+  end
   def your_whisper
     whisper
-  end
-  def your_greet
-    Person.greet
   end
 end
 
@@ -60,4 +69,8 @@ you.whisper_louder
 #you.greet
 #you.be_nice
 you.your_whisper
-you.your_greet
+you.your_protected_instanse_method
+
+You.your_public_method
+You.your_greet
+You.your_private_method
