@@ -40,6 +40,14 @@ class You < Person
   def your_whisper
     whisper
   end
+  def make_person_whisper
+    person = Person.new
+    person.whisper
+  end
+  def make_person_protected_instanse_method
+    person = Person.new
+    person.protected_instanse_method
+  end
 end
 
 someone = Person.new
@@ -58,6 +66,9 @@ you.whisper_louder
 #you.be_nice
 you.your_whisper
 you.your_protected_instanse_method
+puts "___"
+#you.make_person_whisper
+you.make_person_protected_instanse_method
 
 You.person_public_method
 You.person_greet
