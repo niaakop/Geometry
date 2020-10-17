@@ -5,6 +5,9 @@ class Person
   def whisper_louder
     whisper
   end
+  def self.public_method
+    puts "this is public method"
+  end
   private
   def whisper
     puts "His name's not really 'Tj'."
@@ -12,10 +15,6 @@ class Person
   protected
   def self.greet
    puts "Hey, wassup!"
-  end
-  public
-  def self.public_method
-    puts "this is public method"
   end
   private
   def self.private_method
