@@ -12,6 +12,9 @@ class MyClass
 	def classname?
 		puts "it belongs to #{CLASSNAME} class"
 	end
+	def name?
+		puts "#{@name}"
+	end
 end
 
 inst_1 = MyClass.new("Firstborn")
@@ -20,3 +23,4 @@ inst_3 = MyClass.new("Third wheel")
 
 inst_2.inst_count
 inst_1.classname?
+inst_3.name?
