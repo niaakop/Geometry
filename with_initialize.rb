@@ -2,7 +2,7 @@ class MyClass
 	CLASSNAME = "MyClass"
 	@@inst_count = 0
 	attr_reader :name, :id 
-	attr_writer	:val
+	attr_writer :val
 	def initialize(name)
 		@name = name
 		puts "this is instance #{@name}"
