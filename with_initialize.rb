@@ -1,8 +1,10 @@
 class MyClass
 	CLASSNAME = "MyClass"
 	@@inst_count = 0
-	def initialize(inst_name)
-		@name = inst_name
+	attr_reader :name 
+	attr_writer	:val
+	def initialize(name)
+		@name = name
 		puts "this is instance #{@name}"
 		@@inst_count += 1
 	end
@@ -12,8 +14,8 @@ class MyClass
 	def classname?
 		puts "it belongs to #{CLASSNAME} class"
 	end
-	def name?
-		puts "#{@name}"
+	def val?
+		puts @val
 	end
 end
 
@@ -23,4 +25,11 @@ inst_3 = MyClass.new("Third wheel")
 
 inst_2.inst_count
 inst_1.classname?
-inst_3.name?
+inst_3.name
+
+inst_3.val = 14
+#puts inst_3.val 
+puts inst_1.name
+#inst_1.name = "New Name"
+inst_2.val = 124
+inst_2.val? 
