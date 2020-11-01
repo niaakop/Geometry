@@ -10,15 +10,18 @@ class Triangle
     @ang_a = ang_c
     @defined = three_sides || two_sides_one_angle || one_side_two_angs
     end
+
     private
     def three_sides
-        ((@side_a != nil) & (@side_b != nil) & (@side_c != nil))
+        (@side_a != nil) && (@side_b != nil) && (@side_c != nil)
     end
+
     def two_sides_one_angle
-        ((@side_a != nil) & (@side_b != nil) & (@ang_a != nil)) 
+        (@side_a != nil) && (@side_b != nil) && (@ang_a != nil)
     end
+
     def one_side_two_angs
-        ((@side_a != nil) & (@ang_a != nil) & (@ang_b != nil))
+        (@side_a != nil) && (@ang_a != nil) && (@ang_b != nil)
     end
 end
 
