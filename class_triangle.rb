@@ -7,8 +7,9 @@ class Triangle
     @side_c = side_c
     @ang_a = ang_a
     @ang_b = ang_b
-    @ang_a = ang_c
-    @defined = three_sides || two_sides_one_angle || one_side_two_angs
+    @ang_c = ang_c
+
+    @defined = three_sides || two_sides_one_ang || one_side_two_angs
     end
 
     private
@@ -16,7 +17,7 @@ class Triangle
         (@side_a != nil) && (@side_b != nil) && (@side_c != nil)
     end
 
-    def two_sides_one_angle
+    def two_sides_one_ang
         (@side_a != nil) && (@side_b != nil) && (@ang_a != nil)
     end
 
@@ -27,4 +28,4 @@ end
 
 a = Triangle.new(side_a: 14, side_b: 51, ang_a: 543)
 
-puts a.defined # => false
+puts a.defined # => true
