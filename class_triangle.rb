@@ -22,6 +22,6 @@ class Triangle
     end
 end
 
-a = Triangle.new(side_a: 14, side_b: 51, side_c: 543)
+a = Triangle.new(side_a: 14, side_b: 51, ang_a: 543)
 
-puts a.defined # => true
+puts a.defined # => false
