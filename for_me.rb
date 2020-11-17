@@ -1,7 +1,7 @@
 
 def defined(*args)
     args.each do |n| 
-        if not n.is_a? Integer
+        unless n.is_a? Integer
             return false
         end
     end
