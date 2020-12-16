@@ -1,4 +1,4 @@
-
+=begin
 def defined(*args)
     args.each do |n| 
         unless n.is_a? Integer
@@ -9,3 +9,7 @@ def defined(*args)
 end
 
 puts defined(1, 5, 8, "a")
+=end
+a = 5
+b = 6
+puts a || begin 

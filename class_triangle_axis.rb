@@ -1,30 +1,78 @@
+
 class Triangle
     attr_reader :exist_triangle
-    def initialize(x1, y1, x2, y2, x3, y3)
+    def initialize(a: nil, b: nil, c: nil)
 
-    @x1 = x1
-    @y1 = y1
-    @x2 = x2
-    @y2 = y2
-    @x3 = x3
-    @y3 = y3
+    @a = a
+    @b = b
+    @c = c
 
-    @exist_triangle = not_on_one_line? && points_dont_match?
+    @exist_triangle = not_on_one_line? 
     end
 
     private
 
     def not_on_one_line? 
-        !(@x1 == (@x2 && @x3)) && !(@y1 == (@y2 && @y3))
-    end
-
-    def points_dont_match?
-     !(@x1 == @x2 && @y1 == @y2) && 
-     !(@x2 == @x3 && @y2 == @y3) && 
-     !(@x3 == @x1 && @y3 == @y1)  
+        @line = Line.new(a: @a, z: @b)
+        !@line.is_there_point_on_me?(@c) 
     end
 end
 
-a = Triangle.new(x1 = 1, y1 = 2, x2 = 3, y2 = 4, x3 = 5, y3 = 6)
+class Point
+    def initialize(x, y)
+        @x = x
+        @y = y
+    end
+    def x
+        @x
+    end
+    def y
+        @y
+    end
+end
 
-puts a.exist_triangle #=> true
+class Line
+    def initialize(a: nil, z: nil, k: nil, b: nil)
+        @a = a
+        @z = z
+        @k = k
+        @b = b
+        if (@a && @z) != nil
+            @init_points = true
+        elsif (@k && @b) != nil
+            @init_coefs = true
+        else
+            false
+        end 
+    end
+
+    def is_there_point_on_me?(point)
+        @point = point
+        if @init_coefs
+            @point.y == @point.x * @k + @b
+        elsif @init_points
+            @point.y - @a.y == (@z.y - @a.y) / (@z.x - @a.x) * (point.x - @a.x)
+        else
+            false
+        end
+
+    end
+end
+
+first_point = Point.new(2, 4)
+second_point = Point.new(3, 6)
+my_first_line = Line.new(a: first_point, z: second_point)
+
+third_point = Point.new(4, 8)
+puts my_first_line.is_there_point_on_me?(third_point) #=> true
+
+my_second_line = Line.new(k: 2, b: 0)
+fourth_point = Point.new(15, 30)
+puts my_second_line.is_there_point_on_me?(fourth_point) #=> true
+
+#####
+a = Point.new(1, 5)
+b = Point.new(-7, -3)
+c = Point.new(14, 20)
+abc = Triangle.new(a: a, b: b, c: c)
+puts abc.exist_triangle #=>true

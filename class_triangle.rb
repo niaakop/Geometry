@@ -45,7 +45,8 @@ class Triangle
     end
 end
 
+
 a = Triangle.new(side_a: 1, side_b: 3.65, side_c: 4)
 
 puts a.defined_triangle #=> true
-puts a.exist #=> true
+puts a.exist 
