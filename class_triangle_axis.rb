@@ -13,60 +13,49 @@ class Triangle
     private
 
     def not_on_one_line? 
-        @line = Line.new(a: @a, z: @b)
-        !@line.is_there_point_on_me?(@c) 
+        line = Line.new(var1: @a, var2: @b)
+        !line.is_there_point_on_me?(@c) 
     end
 end
 
 class Point
+    attr_reader :x, :y
     def initialize(x, y)
         @x = x
         @y = y
     end
-    def x
-        @x
-    end
-    def y
-        @y
-    end
 end
 
 class Line
-    def initialize(a: nil, z: nil, k: nil, b: nil)
-        @a = a
-        @z = z
-        @k = k
-        @b = b
-        if (@a && @z) != nil
-            @init_points = true
-        elsif (@k && @b) != nil
-            @init_coefs = true
+    def initialize(var1: nil, var2: nil)
+        if (var1 && var2).is_a?(Point)
+            @k = (var2.y - var1.y) / (var2.x - var1.x)
+            @b = var1.y - var1.x * (var2.y - var1.y) / (var2.x - var1.x)
+        elsif (var1 && var2).is_a?(Integer || Float)
+            @k = var1
+            @b = var2
         else
             false
         end 
     end
 
     def is_there_point_on_me?(point)
-        @point = point
-        if @init_coefs
-            @point.y == @point.x * @k + @b
-        elsif @init_points
-            @point.y - @a.y == (@z.y - @a.y) / (@z.x - @a.x) * (point.x - @a.x)
-        else
-            false
-        end
+        point.y == point.x * @k + @b
+    end
 
+    def is_line_correct?(x: nil, y: nil, x1: nil, y1: nil, x2: nil, y2: nil)
+        y == (y1 - y2) / (x1 - x2) * (x - x1) + y1
     end
 end
 
 first_point = Point.new(2, 4)
 second_point = Point.new(3, 6)
-my_first_line = Line.new(a: first_point, z: second_point)
+my_first_line = Line.new(var1: first_point, var2: second_point)
 
 third_point = Point.new(4, 8)
 puts my_first_line.is_there_point_on_me?(third_point) #=> true
 
-my_second_line = Line.new(k: 2, b: 0)
+my_second_line = Line.new(var1: 2, var2: 0)
 fourth_point = Point.new(15, 30)
 puts my_second_line.is_there_point_on_me?(fourth_point) #=> true
 
