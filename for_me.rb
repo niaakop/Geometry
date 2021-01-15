@@ -25,10 +25,35 @@ a = MyClass.new
 b = MyClass.new
 c = 0
 puts (b && a).is_a?(MyClass)
-=end
 
 def blabla(a: nil, b: nil, c: nil)
     puts a, b, c
 end
 
 blabla(a: 4, c: 5, b: 15)
+var1 = 14
+var2 = 2
+puts var1.is_a?(Integer)|| var1.is_a?(Float) && 
+        var2.is_a?(Integer) || var2.is_a?(Float)
+class Point
+    attr_reader :x, :y
+    def initialize(x, y)
+        @x = x
+        @y = y
+    end
+    def is_on?(line)
+        @y == @x * line.k + line.b
+    end
+end
+
+my1 = Point.new(1, 5)
+my2 = Point.new(1, 5)
+puts my1 == my2
+=end
+def blabla
+    if true
+        return true
+    end
+    false
+end
+puts blabla
