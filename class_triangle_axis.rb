@@ -48,8 +48,8 @@ class Line
 
   def initialize(var1: nil, var2: nil, var3: nil) #var1 is 1st point or a, var2 is 2nd point or b, var3 is c 
     if var1.is_a?(Point) && var2.is_a?(Point) && !var1.is_equal?(var2)
-      @a = var2.x - var1.x #(var2.y - var1.y) / (var2.x - var1.x)
-      @b = var1.y - var2.y #var1.y - var1.x * (var2.y - var1.y) / (var2.x - var1.x)
+      @a = var2.x - var1.x 
+      @b = var1.y - var2.y 
       @c = var1.x * var2.y - var2.x * var1.y
       @exist = true
     elsif (var1.is_a?(Integer) || var1.is_a?(Float)) && 
