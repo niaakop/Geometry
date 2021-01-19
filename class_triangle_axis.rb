@@ -1,6 +1,8 @@
+class MyError < StandardError
+end
 
 class Triangle
-  attr_reader :exist
+  attr_reader :exist, :a, :b, :c
 
   def initialize(a: nil, b: nil, c: nil)
     @a = a
@@ -13,21 +15,25 @@ class Triangle
   private
 
   def not_on_one_line? 
-  begin
     line = Line.new(var1: @a, var2: @b)
-  rescue StandardError
-    return false
+    !@c.is_on?(line)
+    rescue MyError
+    false
   end 
-  !@c.is_on?(line)
-  end
+
 end
 
 class Point
-  attr_reader :x, :y
+  attr_reader :exist, :x, :y
 
   def initialize(x, y)
-    @x = x
-    @y = y
+    if (x.is_a?(Integer) || x.is_a?(Float)) && 
+            (y.is_a?(Integer) || y.is_a?(Float))
+      @x = x
+      @y = y
+    else
+      raise MyError.new "Wrong parameters of point initialize"
+    end
   end
 
   def is_on?(line)
@@ -38,8 +44,12 @@ class Point
     end  
   end
 
-  def is_equal?(point)
+  def ==(point)
     @x == point.x && @y == point.y
+  end
+
+  def !=(point)
+    @x != point.x || @y != point.y
   end
 end
 
@@ -47,7 +57,7 @@ class Line
   attr_reader :a, :b, :c, :exist
 
   def initialize(var1: nil, var2: nil, var3: nil) #var1 is 1st point or a, var2 is 2nd point or b, var3 is c 
-    if var1.is_a?(Point) && var2.is_a?(Point) && !var1.is_equal?(var2)
+    if var1.is_a?(Point) && var2.is_a?(Point) && var1 != var2 
       @a = var2.x - var1.x 
       @b = var1.y - var2.y 
       @c = var1.x * var2.y - var2.x * var1.y
@@ -62,7 +72,7 @@ class Line
       @exist = true
     else
       @exist = false
-      raise StandardError.new "Wrong parameters of line initialize"
+      raise MyError.new "Wrong parameters of line initialize"
     end 
   end
 end
@@ -80,7 +90,8 @@ puts fourth_point.is_on?(my_second_line) #=> true
 
 #####
 a = Point.new(26, 6)
-b = Point.new(15, 7)
+b = Point.new(25, 6)
 c = Point.new(14, 7)
 abc = Triangle.new(a: a, b: b, c: c)
 puts abc.exist #=>true
+#efg = Triangle.new(a: Point.new(1,1), b: Point.new(4,'s'), c: Point.new(1,13))
