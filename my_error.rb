@@ -1,0 +1,2 @@
+class MyError < StandardError
+end

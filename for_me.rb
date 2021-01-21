@@ -49,7 +49,6 @@ end
 my1 = Point.new(1, 5)
 my2 = Point.new(1, 5)
 puts my1 == my2
-=end
 def blabla
     if true
         return true
@@ -57,3 +56,4 @@ def blabla
     false
 end
 puts blabla
+=end
