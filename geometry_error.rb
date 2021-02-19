@@ -3,16 +3,16 @@ end
 
 class IncompatibleParamsError < GeometryError
   attr_reader :cls
-  def initialize(msg = "Incompatible Params Error", cls) 
+  def initialize(cls) 
     @cls = cls
-    super("#{msg}. #{cls} class.")
+    super("Incompatible Params Error. #{cls} class.")
   end
 end
 
 class DegenerateShapeError < GeometryError
   attr_reader :cls
-  def initialize(msg = "Degenerate Shape Error", cls) 
+  def initialize(cls) 
     @cls = cls
-    super("#{msg}. #{cls} class.")
+    super("Degenerate Shape Error. #{cls} class.")
   end
 end

@@ -68,7 +68,6 @@ end
 
 puts are_num?(4, 5.5, 14, 123)#, 0.5.are_num?
 
-=end
 
 #, (3, 1.8, 4).are_num?, (0.3, 0.6, 1).are_num?
 
@@ -81,8 +80,64 @@ class MyError < StandardError
   end
 end
 
-begin
-  raise MyError.new("blabla")
-# rescue StandardError => e 
-#   puts e.cls 
+class MyClass
+  begin
+    raise MyError.new("blabla", self.class)
+  # rescue StandardError => e 
+  #   puts e.cls 
+  end
 end
+
+require './geometry_error'
+class Point
+  attr_reader :exist, :x, :y
+
+  def initialize(x, y)
+      @x = x
+      @y = y
+    if are_numbers?(x, y)
+      @exist = true
+    else
+      @exist = false
+      raise IncompatibleParamsError.new(self.class)
+    end
+  end
+
+  def is_on?(line)
+    if line.is_a?(Line)
+      @y * line.a + @x * line.b + line.c == 0
+    else
+      false
+    end  
+  end
+
+  def ==(point)
+    if point.is_a?(Point)
+      @x == point.x && @y == point.y
+    else
+      false
+    end
+  end
+
+  def !=(point)
+    # if !point.is_a?(Point)
+    #   true
+    # else
+      !(self == point)
+    # end
+  end
+end
+
+def are_numbers?(*args)
+  i = 0
+  until i == args.length
+    return false if !(args[i].is_a?(Integer) || args[i].is_a?(Float))
+    i += 1
+  end     
+  true 
+end
+
+point = Point.new(1,5)
+a = 15
+puts a == point
+=end

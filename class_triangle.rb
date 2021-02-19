@@ -12,23 +12,24 @@ class Triangle
       @exist = true
     elsif !(@a.is_a?(Point) && @b.is_a?(Point) && @c.is_a?(Point))
       exist = false
-      raise IncompatibleParamsError.new(
-            "wrong parameters type of triangle initialize", Triangle)
+      raise IncompatibleParamsError.new(self.class)
     elsif !(not_on_one_line?)
       exist = false
-      raise DegenerateShapeError.new(
-            "triangle with such parameters cannot exist", Triangle)
+      raise DegenerateShapeError.new(self.class)
     end 
   end
 
   private
 
   def not_on_one_line?
-    !@c.is_on?(Line.new(var1: @a, var2: @b))
-  rescue GeometryError
-    false
+    line = Line.new(var1: @a, var2: @b)
+  rescue DegenerateShapeError => e
+    if e.cls == Line
+      !@c.is_on?(line)
+    else
+      raise e
+    end
   end 
-
 end
 
 class Point
@@ -41,13 +42,12 @@ class Point
       @exist = true
     else
       @exist = false
-      raise IncompatibleParamsError.new(
-            "wrong parameters type of point initialize", Point)
+      raise IncompatibleParamsError.new(self.class)
     end
   end
 
   def is_on?(line)
-    if line.exist
+    if line.is_a?(Line)
       @y * line.a + @x * line.b + line.c == 0
     else
       false
@@ -55,15 +55,19 @@ class Point
   end
 
   def ==(point)
-    @x == point.x && @y == point.y
-  rescue GeometryError
-    false
+    if point.is_a?(Point)
+      @x == point.x && @y == point.y
+    else
+      false
+    end
   end
 
   def !=(point)
-    @x != point.x || @y != point.y
-  rescue GeometryError
-    false
+    # if !point.is_a?(Point)
+    #   true
+    # else
+      !(self == point)
+    # end
   end
 end
 
@@ -87,12 +91,10 @@ class Line
     elsif !(@var1.is_a?(Point) && @var2.is_a?(Point)) && 
                         !are_numbers?(@var1, @var2, @var3)
       @exist = false
-      raise IncompatibleParamsError.new(
-            "wrong parameters type of line initialize", Line)
+      raise IncompatibleParamsError.new(self.class)
     elsif @var1 == @var2 || (@var1 == 0 && @var2 == 0)
       @exist = false
-      raise DegenerateShapeError.new(
-            "line with such parameters cannot exist", Line)
+      raise DegenerateShapeError.new(self.class)
     end 
   end
 end
