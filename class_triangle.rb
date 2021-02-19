@@ -100,10 +100,8 @@ class Line
 end
 
 def are_numbers?(*args)
-  i = 0
-  until i == args.length
+  (args.length).times do |i|
     return false if !(args[i].is_a?(Integer) || args[i].is_a?(Float))
-    i += 1
   end     
   true 
 end
@@ -119,9 +117,8 @@ second_line = Line.new(var1: 0, var2: 2, var3: 0.5)
 fourth_point = Point.new(-0.25, 30)
 puts fourth_point.is_on?(second_line) #=> true
 
-#####
 a = Point.new(26, 6)
-b = Point.new(27, 6)
+b = Point.new(27, 6) 
 c = Point.new(14, 7)
 abc = Triangle.new(a: a, b: b, c: c)
 puts abc.exist #=>true
