@@ -7,15 +7,16 @@ class Triangle
     @a = a
     @b = b
     @c = c
-    if @a.is_a?(Point) && @b.is_a?(Point) && @c.is_a?(Point) && 
-      not_on_one_line?
-      @exist = true
-    elsif !(@a.is_a?(Point) && @b.is_a?(Point) && @c.is_a?(Point))
-      exist = false
+    if [@a, @b, @c].are_kind_of?(Point)
+      if not_on_one_line?
+        @exist = true
+      else
+        @exist = false
+        raise DegenerateShapeError.new(self.class)
+      end
+    else
+      @exist = false
       raise IncompatibleParamsError.new(self.class)
-    elsif !(not_on_one_line?)
-      exist = false
-      raise DegenerateShapeError.new(self.class)
     end 
   end
 
@@ -38,7 +39,7 @@ class Point
   def initialize(x, y)
       @x = x
       @y = y
-    if are_numbers?(x, y)
+    if [x, y].are_kind_of?(Integer, Float)
       @exist = true
     else
       @exist = false
@@ -75,37 +76,37 @@ class Line
   attr_reader :a, :b, :c, :exist
 
   def initialize(var1: nil, var2: nil, var3: nil) #var1 is 1st point or a, var2 is 2nd point or b, var3 is c 
-    @var1 = var1
-    @var2 = var2
-    @var3 = var3
-    if @var1.is_a?(Point) && @var2.is_a?(Point) && @var1 != @var2 
-      @exist = true
-      @a = @var2.x - @var1.x 
-      @b = @var1.y - @var2.y 
-      @c = @var1.x * @var2.y - @var2.x * @var1.y
-    elsif are_numbers?(@var1, @var2, @var3) && !(@var1 == 0 && @var2 == 0)
-      @exist = true
-      @a = @var1
-      @b = @var2
-      @c = @var3
-    elsif !(@var1.is_a?(Point) && @var2.is_a?(Point)) && 
-                        !are_numbers?(@var1, @var2, @var3)
+    if [var1, var2].are_kind_of?(Point) 
+      if var1 != var2 
+        @exist = true
+        @a = var2.x - var1.x 
+        @b = var1.y - var2.y 
+        @c = var1.x * var2.y - var2.x * var1.y
+      else
+        @exist = false
+        raise DegenerateShapeError.new(self.class)
+      end
+    elsif [var1, var2, var3].are_kind_of?(Integer, Float)
+      if !(var1 == 0 && var2 == 0)
+        @exist = true
+        @a = var1
+        @b = var2
+        @c = var3
+      else
+        @exist = false
+        raise DegenerateShapeError.new(self.class)
+      end
+    else
       @exist = false
       raise IncompatibleParamsError.new(self.class)
-    elsif @var1 == @var2 || (@var1 == 0 && @var2 == 0)
-      @exist = false
-      raise DegenerateShapeError.new(self.class)
     end 
   end
 end
 
-def are_numbers?(*args)
-  i = 0
-  until i == args.length
-    return false if !(args[i].is_a?(Integer) || args[i].is_a?(Float))
-    i += 1
-  end     
-  true 
+class Array
+  def are_kind_of?(*cls)
+    self.all? { |i| cls.any? { |c| i.kind_of?(c) } }
+  end
 end
 
 first_point = Point.new(2, 4)
