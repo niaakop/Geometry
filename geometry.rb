@@ -1,0 +1,5 @@
+require "./error.rb"
+require "./triangle.rb"
+require "./point.rb"
+require "./line.rb"
+require "./array.rb"
