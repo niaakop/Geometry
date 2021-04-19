@@ -1,5 +1,7 @@
-require "./error.rb"
-require "./triangle.rb"
-require "./point.rb"
-require "./line.rb"
-require "./array.rb"
+require "./geometry/error.rb"
+require "./geometry/triangle.rb"
+require "./geometry/point.rb"
+require "./geometry/line.rb"
+
+module Geometry
+end
