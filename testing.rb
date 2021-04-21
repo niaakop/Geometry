@@ -17,4 +17,9 @@ module Geometry
   c = Point.new(14, 7)
   abc = Triangle.new(a: a, b: b, c: c)
   puts abc.exist # true
+
+  puts LineSegment.new(a: Point.new(0, 0), b: Point.new(-300, 0)).length
+  ls_1 = LineSegment.new(a: Point.new(0, 1), b: Point.new(-300, 0))
+  ls_2 = LineSegment.new(a: Point.new(0, 1), b: Point.new(10, 0))
+  puts ls_1 != ls_2 # true
 end

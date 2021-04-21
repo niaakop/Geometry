@@ -1,6 +1,7 @@
 require_relative './array.rb'
 require_relative './error.rb'
 require_relative './line.rb'
+require_relative './line_segment'
 
 class Geometry::Triangle
   attr_reader :exist, :a, :b, :c
