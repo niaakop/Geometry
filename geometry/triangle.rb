@@ -23,6 +23,13 @@ class Geometry::Triangle
     end
   end
 
+  def perimeter
+    @ab = Geometry::LineSegment.new(a: @a, b: @b)
+    @bc = Geometry::LineSegment.new(a: @b, b: @c)
+    @ca = Geometry::LineSegment.new(a: @c, b: @a)
+    @ab.length + @bc.length + @ca.length
+  end
+
   private
 
   def not_on_one_line?

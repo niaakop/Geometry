@@ -22,4 +22,6 @@ module Geometry
   ls_1 = LineSegment.new(a: Point.new(0, 1), b: Point.new(-300, 0))
   ls_2 = LineSegment.new(a: Point.new(0, 1), b: Point.new(10, 0))
   puts ls_1 != ls_2 # true
+
+  puts abc.perimeter
 end
