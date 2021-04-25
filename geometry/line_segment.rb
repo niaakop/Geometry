@@ -5,7 +5,7 @@ require_relative './point.rb'
 class Geometry::LineSegment
   attr_reader :a, :b, :exist
   
-  def initialize(a: nil, b: nil)
+  def initialize(a, b)
     if [a, b].are_kind_of?(Geometry::Point)
       if a != b
         @exist = true
@@ -45,7 +45,7 @@ class Geometry::LineSegment
     if ls.is_a?(Geometry::LineSegment)
       self.length > ls.length
     else
-      raise Geometry::IncompatibleParamsError.new(self.class)
+      raise ArgumentError.new("comparison of LineSegment with another class failed")
     end
   end
 

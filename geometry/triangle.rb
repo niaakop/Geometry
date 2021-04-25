@@ -24,9 +24,9 @@ class Geometry::Triangle
   end
 
   def perimeter
-    @ab = Geometry::LineSegment.new(a: @a, b: @b)
-    @bc = Geometry::LineSegment.new(a: @b, b: @c)
-    @ca = Geometry::LineSegment.new(a: @c, b: @a)
+    @ab = Geometry::LineSegment.new(@a, @b)
+    @bc = Geometry::LineSegment.new(@b, @c)
+    @ca = Geometry::LineSegment.new(@c, @a)
     @ab.length + @bc.length + @ca.length
   end
 
