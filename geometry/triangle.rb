@@ -6,7 +6,7 @@ require_relative './line_segment'
 class Geometry::Triangle
   attr_reader :exist, :a, :b, :c
 
-  def initialize(a: nil, b: nil, c: nil)
+  def initialize(a, b, c)
     @a = a
     @b = b
     @c = c
