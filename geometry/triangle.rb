@@ -36,9 +36,11 @@ class Geometry::Triangle
     line = Geometry::Line.new(var1: @a, var2: @b)
   rescue DegenerateShapeError => e
     if e.cls == Line
-      !@c.is_on?(line)
+      false
     else
       raise e
     end
+  ensure
+    !@c.is_on?(line)
   end
 end
