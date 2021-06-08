@@ -15,6 +15,13 @@ module Geometry
   a = Point.new(26, 6)
   b = Point.new(27, 6)
   c = Point.new(14, 7)
-  abc = Triangle.new(a: a, b: b, c: c)
+  abc = Triangle.new(a, b, c)
   puts abc.exist # true
+
+  puts LineSegment.new(Point.new(0, 0), Point.new(-300, 0)).length
+  ls_1 = LineSegment.new(Point.new(0, 1), Point.new(-300, 0))
+  ls_2 = LineSegment.new(Point.new(0, 1), Point.new(10, 0))
+  puts ls_1 != ls_2 # true
+
+  puts abc.perimeter
 end
