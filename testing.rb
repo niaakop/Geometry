@@ -24,4 +24,6 @@ module Geometry
   puts ls_1 != ls_2 # true
 
   puts abc.perimeter
+  first_line.slope_intercept_form
+  p first_line.m_si, first_line.b_si
 end
