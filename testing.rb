@@ -26,4 +26,7 @@ module Geometry
   puts abc.perimeter
   first_line.slope_intercept_form
   p first_line.m_si, first_line.b_si
+
+  p first_line.intersection_point?(second_line) # @x=-0.25, @y=-0.25, @exist=true>
+  p first_line.intersection_point?(Line.new(var1: Point.new(3, 4), var2: Point.new(4, 6))) # false
 end
