@@ -9,8 +9,8 @@ class Geometry::Line
     if [var1, var2].are_kind_of?(Geometry::Point)
       if var1 != var2
         @exist = true
-        @a = var2.x - var1.x
-        @b = var1.y - var2.y
+        @a = var1.y - var2.y
+        @b = var2.x - var1.x
         @c = var1.x * var2.y - var2.x * var1.y
       else
         @exist = false
@@ -73,7 +73,6 @@ class Geometry::Line
         else
           x = (b_si2 - b_si1) / (k_si1 - k_si2)
           y = k_si1 * x + b_si1
-          p x, y
         end
       end
     end
@@ -81,8 +80,8 @@ class Geometry::Line
   end
 
   def linear_equation # ax + by + c = 0
-    @a = var2.x - var1.x
-    @b = var1.y - var2.y
+    @a = var1.y - var2.y
+    @b = var2.x - var1.x
     @c = var1.x * var2.y - var2.x * var1.y
   end
 

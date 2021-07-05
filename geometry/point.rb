@@ -19,7 +19,7 @@ class Geometry::Point
 
   def is_on?(line)
     if line.is_a?(Geometry::Line)
-      @y * line.a + @x * line.b + line.c == 0
+      @x * line.a + @y * line.b + line.c == 0
     else
       false
     end
