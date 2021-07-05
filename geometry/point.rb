@@ -5,6 +5,8 @@ class Geometry::Point
   attr_reader :exist, :x, :y
 
   def initialize(x, y)
+    x = x.to_f
+    y = y.to_f
     @x = x
     @y = y
     if [x, y].are_kind_of?(Integer, Float)
