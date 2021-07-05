@@ -3,7 +3,7 @@ require_relative './error.rb'
 require_relative './point.rb'
 
 class Geometry::Line
-  attr_reader :a, :b, :c, :m_si, :b_si, :exist
+  attr_reader :a, :b, :c, :k_si, :b_si, :exist
 
   def initialize(var1: nil, var2: nil, var3: nil) # var1 is 1st point or a, var2 is 2nd point or b, var3 is c
     if [var1, var2].are_kind_of?(Geometry::Point)
@@ -41,13 +41,13 @@ class Geometry::Line
     c2 = line.c
     if b1 != 0
       self.slope_intercept_form
-      m_si1 = self.m_si
+      k_si1 = self.k_si
       b_si1 = self.b_si
     end
 
     if b2 != 0
       line.slope_intercept_form
-      m_si2 = line.m_si
+      k_si2 = line.k_si
       b_si2 = line.b_si
     end
 
@@ -58,21 +58,22 @@ class Geometry::Line
     if (b1 == 0) ^ (b2 == 0)
       if b1 == 0
         x = -c1 / a1
-        y = m_si2 * x + b_si2
+        y = k_si2 * x + b_si2
       else
         x = -c2 / a2
-        y = m_si1 * x + b_si1
+        y = k_si1 * x + b_si1
       end
 
     else
       if (b1 == 0) && (b2 == 0)
         return false
       else
-        if m_si1 == m_si2
+        if k_si1 == k_si2
           return false
         else
-          x = (b_si2 - b_si1) / (m_si1 - m_si2)
-          y = m_si1 * x + b_si1
+          x = (b_si2 - b_si1) / (k_si1 - k_si2)
+          y = k_si1 * x + b_si1
+          p x, y
         end
       end
     end
@@ -85,8 +86,8 @@ class Geometry::Line
     @c = var1.x * var2.y - var2.x * var1.y
   end
 
-  def slope_intercept_form # y = mx + b
-    @m_si = -(@a / @b)
+  def slope_intercept_form # y = kx + b
+    @k_si = -(@a / @b)
     @b_si = -(@c / @b)
   end 
 end
