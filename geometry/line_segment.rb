@@ -3,7 +3,7 @@ require_relative './error.rb'
 require_relative './point.rb'
 
 class Geometry::LineSegment
-  attr_reader :a, :b, :exist
+  attr_reader :a, :b, :x1x2, :y1y2, :exist
   
   def initialize(a, b)
     if [a, b].are_kind_of?(Geometry::Point)
@@ -59,5 +59,29 @@ class Geometry::LineSegment
  
   def <(ls)
     !(self >= ls)
+  end
+
+  def intersection_point?(ls)
+    if !ls.is_a?(Geometry::LineSegment)
+      raise ArgumentError.new("intersection of a line segment with an instance of another class is not possible")
+    end
+    lines_int_pnt = self.line.intersection_point?(ls.line)
+    x1x2.include?(lines_int_pnt.x) 
+    if lines_int_pnt.is_a?(Geometry::Point) && 
+        x1x2.include?(lines_int_pnt.x) && ls.x1x2.include?(lines_int_pnt.x)
+      lines_int_pnt
+    else
+      false
+    end
+  end
+
+  def x1x2
+  # open set. x1 < x1x2 < x2
+    ([@a.x, @b.x].min.next_float...[@a.x, @b.x].max)
+  end
+
+  def y1y2
+  # open set. y1 < y1y2 < y2
+    ([@a.y, @b.y].min.next_float...[@a.y, @b.y].max)
   end
 end
