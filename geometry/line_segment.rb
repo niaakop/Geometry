@@ -61,16 +61,35 @@ class Geometry::LineSegment
     !(self >= ls)
   end
 
-  def intersection_point?(ls)
-    if !ls.is_a?(Geometry::LineSegment)
-      raise ArgumentError.new("intersection of a line segment with an instance of another class is not possible")
-    end
-    lines_int_pnt = self.line.intersection_point?(ls.line)
-    x1x2.include?(lines_int_pnt.x) 
-    if lines_int_pnt.is_a?(Geometry::Point) && 
-        x1x2.include?(lines_int_pnt.x) && ls.x1x2.include?(lines_int_pnt.x)
-      lines_int_pnt
+  def intersection_point?(shape)
+    if shape.is_a?(Geometry::LineSegment)
+      ls = shape    
+      lines_int_pnt = line.intersection_point?(ls.line)
+      if lines_int_pnt && contains?(lines_int_pnt) && ls.contains?(lines_int_pnt)
+        lines_int_pnt
+      else
+        false
+      end
+    elsif shape.is_a?(Geometry::Line)
+      ln = shape
+      lines_int_pnt = ln.intersection_point?(line)
+      if lines_int_pnt && contains?(lines_int_pnt)
+        lines_int_pnt
+      else
+        false
+      end
     else
+      raise ArgumentError.new("intersection of a line segment with an instance of #{shape.class} class is not possible")
+    end
+  end
+
+  def contains?(point)
+    if !point.is_a?(Geometry::Point)
+      raise ArgumentError.new("instance content of #{point.class} class in line segment is not possible")
+    end
+    if line.contains?(point)
+      x1x2.include?(point.x)
+    else 
       false
     end
   end

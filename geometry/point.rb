@@ -1,27 +1,30 @@
 require_relative './error.rb'
 require_relative './line.rb'
+require_relative './line_segment.rb'
 
 class Geometry::Point
   attr_reader :exist, :x, :y
 
   def initialize(x, y)
-    x = x.to_f
-    y = y.to_f
     @x = x
     @y = y
     if [x, y].are_kind_of?(Integer, Float)
       @exist = true
+    @x = x.to_f
+    @y = y.to_f
     else
       @exist = false
       raise Geometry::IncompatibleParamsError.new(self.class)
     end
   end
 
-  def is_on?(line)
-    if line.is_a?(Geometry::Line)
-      @x * line.a + @y * line.b + line.c == 0
+  def contained?(shape)
+    if shape.is_a?(Geometry::Line)
+      shape.contains?(self)
+    elsif shape.is_a?(Geometry::LineSegment)
+      shape.contains?(self)
     else
-      false
+      raise ArgumentError.new("point content in #{shape.class} class is not possible")
     end
   end
 
