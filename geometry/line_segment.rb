@@ -88,7 +88,11 @@ class Geometry::LineSegment
       raise ArgumentError.new("instance content of #{point.class} class in line segment is not possible")
     end
     if line.contains?(point)
-      x1x2.include?(point.x)
+      if @a.x != @b.x
+        x1x2.include?(point.x)
+      else
+        y1y2.include?(point.y)
+      end
     else 
       false
     end

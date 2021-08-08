@@ -1,6 +1,8 @@
 require_relative './error.rb'
 require_relative './line.rb'
 require_relative './line_segment.rb'
+require_relative './triangle.rb'
+require_relative './array.rb'
 
 class Geometry::Point
   attr_reader :exist, :x, :y
@@ -19,9 +21,7 @@ class Geometry::Point
   end
 
   def contained?(shape)
-    if shape.is_a?(Geometry::Line)
-      shape.contains?(self)
-    elsif shape.is_a?(Geometry::LineSegment)
+    if [shape].are_kind_of?(Geometry::Line, Geometry::LineSegment, Geometry::Triangle) 
       shape.contains?(self)
     else
       raise ArgumentError.new("point content in #{shape.class} class is not possible")
