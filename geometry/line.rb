@@ -54,33 +54,30 @@ class Geometry::Line
         b_si2 = line.b_si
       end
 
-      if (b1 == 0) ^ (b2 == 0)
-        if b1 == 0
-          x = -c1 / a1
-          y = k_si2 * x + b_si2
-        else
-          x = -c2 / a2
-          y = k_si1 * x + b_si1
-        end
+      if (b1 == 0) && (b2 != 0)
+        x = -c1 / a1
+        y = k_si2 * x + b_si2
+
+      elsif (b1 != 0) && (b2 == 0)
+        x = -c2 / a2
+        y = k_si1 * x + b_si1
+
+      elsif (b1 == 0) && (b2 == 0)
+        return false
 
       else
-        if (b1 == 0) && (b2 == 0)
+        if k_si1 == k_si2
           return false
         else
-          if k_si1 == k_si2
-            return false
-          else
-            x = (b_si2 - b_si1) / (k_si1 - k_si2)
-            y = k_si1 * x + b_si1
-          end
+          x = (b_si2 - b_si1) / (k_si1 - k_si2)
+          y = k_si1 * x + b_si1
         end
       end
       Geometry::Point.new(x, y)
 
     elsif
       shape.is_a?(Geometry::LineSegment)
-      ls = shape
-      ls.intersection_point?(self)
+      shape.intersection_point?(self)
 
     else 
       raise ArgumentError.new("intersection of a line with an instance of #{shape.class} class is not possible") 
