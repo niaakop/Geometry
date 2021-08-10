@@ -3,7 +3,7 @@ require_relative './error.rb'
 require_relative './point.rb'
 
 class Geometry::LineSegment
-  attr_reader :a, :b, :exist
+  attr_reader :a, :b, :x1x2, :y1y2, :exist
   
   def initialize(a, b)
     if [a, b].are_kind_of?(Geometry::Point)
@@ -59,5 +59,52 @@ class Geometry::LineSegment
  
   def <(ls)
     !(self >= ls)
+  end
+
+  def intersection_point?(shape)
+    if shape.is_a?(Geometry::LineSegment)
+      ls = shape    
+      lines_int_pnt = line.intersection_point?(ls.line)
+      if lines_int_pnt && contains?(lines_int_pnt) && ls.contains?(lines_int_pnt)
+        lines_int_pnt
+      else
+        false
+      end
+    elsif shape.is_a?(Geometry::Line)
+      ln = shape
+      lines_int_pnt = ln.intersection_point?(line)
+      if lines_int_pnt && contains?(lines_int_pnt)
+        lines_int_pnt
+      else
+        false
+      end
+    else
+      raise ArgumentError.new("intersection of a line segment with an instance of #{shape.class} class is not possible")
+    end
+  end
+
+  def contains?(point)
+    if !point.is_a?(Geometry::Point)
+      raise ArgumentError.new("instance content of #{point.class} class in line segment is not possible")
+    end
+    if line.contains?(point)
+      if @a.x != @b.x
+        x1x2.include?(point.x)
+      else
+        y1y2.include?(point.y)
+      end
+    else 
+      false
+    end
+  end
+
+  def x1x2
+  # open set. x1 < x1x2 < x2
+    ([@a.x, @b.x].min.next_float...[@a.x, @b.x].max)
+  end
+
+  def y1y2
+  # open set. y1 < y1y2 < y2
+    ([@a.y, @b.y].min.next_float...[@a.y, @b.y].max)
   end
 end
