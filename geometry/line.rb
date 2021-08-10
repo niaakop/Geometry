@@ -17,12 +17,12 @@ class Geometry::Line
         @exist = false
         raise Geometry::DegenerateShapeError.new(self.class)
       end
-    elsif [var1, var2, var3].are_kind_of?(Integer, Float)
+    elsif [var1, var2, var3].are_kind_of?(Integer, Float, Rational)
       if !(var1 == 0 && var2 == 0)
         @exist = true
-        @a = var1
-        @b = var2
-        @c = var3
+        @a = var1.rationalize
+        @b = var2.rationalize
+        @c = var3.rationalize
       else
         @exist = false
         raise Geometry::DegenerateShapeError.new(self.class)

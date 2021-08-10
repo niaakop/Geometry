@@ -10,10 +10,10 @@ class Geometry::Point
   def initialize(x, y)
     @x = x
     @y = y
-    if [x, y].are_kind_of?(Integer, Float)
+    if [x, y].are_kind_of?(Integer, Float, Rational)
       @exist = true
-    @x = x.to_f
-    @y = y.to_f
+    @x = x.rationalize
+    @y = y.rationalize
     else
       @exist = false
       raise Geometry::IncompatibleParamsError.new(self.class)
