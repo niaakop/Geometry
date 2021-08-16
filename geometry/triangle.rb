@@ -72,23 +72,19 @@ class Geometry::Triangle
       true
     elsif contains_any_vertice?(triangle) || triangle.contains_any_vertice?(self) 
       true
-    elsif any_side_contains_any_vert?(triangle) || triangle.any_side_contains_any_vert?(self)
+    elsif side_and_vert_it_contains(triangle) || triangle.side_and_vert_it_contains(self)
       tr1 = self
       tr2 = triangle
-      if tr2.any_side_contains_any_vert?(tr1)
+      if tr2.side_and_vert_it_contains(tr1) # tr1 is a triangle that has a side that contains tr2's vertice after this method
         tr1 = triangle
         tr2 = self
       end
-      ascav = tr1.any_side_contains_any_vert?(tr2) 
-      side = ascav[:side]
-      vert = ascav[:vert]
-      sides = [tr1.ab, tr1.bc, tr1.ca]
-      verts = [tr2.a, tr2.b, tr2.c]
-      sides.delete_if { |e| e.equal?(side) }
-      verts.delete_if { |e| e.equal?(vert) }
-      if sides.any? { |s| verts.any? { |v| s.contains?(v) } }
+      side, vert = tr1.side_and_vert_it_contains(tr2) 
+      sides = Array.new | [tr1.ab, tr1.bc, tr1.ca].delete_if { |e| e.equal?(side) } # other sides
+      verts = Array.new | [tr2.a, tr2.b, tr2.c].delete_if { |e| e.equal?(vert) } # other vertices 
+      if sides.any? { |s| verts.any? { |v| s.contains?(v) } } 
         true
-      elsif verts.any? { |v| v == tr1.opposite(side)}
+      elsif verts.any? { |v| v == tr1.opposite(side) } 
         true
       else
         false
@@ -104,7 +100,7 @@ class Geometry::Triangle
     [triangle.a, triangle.b, triangle.c].any? { |v| contains?(v) }
   end
 
-  def any_side_contains_any_vert?(triangle)
+  def side_and_vert_it_contains(triangle)
     sides = [@ab, @bc, @ca]
     verts = [triangle.a, triangle.b, triangle.c]
     n = 0
@@ -112,13 +108,13 @@ class Geometry::Triangle
       m = 0
       3.times do 
         if sides[n].contains?(verts[m])
-          return {side: sides[n], vert: verts[m]}
+          return sides[n], verts[m]
         end
         m += 1
       end
       n += 1
     end
-    false
+    nil
   end
 
   def opposite(s)
