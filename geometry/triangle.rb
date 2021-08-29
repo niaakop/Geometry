@@ -67,48 +67,37 @@ class Geometry::Triangle
     false
   end
 
-  def intersect?(triangle)
-    if sides_intersect?(triangle)
+  def self.intersect?(tr1, tr2)
+    raise Geometry::IncompatibleParamsError.new(self.class) if !(tr1.is_a?(Geometry::Triangle) && tr2.is_a?(Geometry::Triangle)) 
+    if tr1.sides_intersect?(tr2) || Geometry::Triangle.contains_any_vertice?(tr1, tr2) || tr1 == tr2
       true
-    elsif contains_any_vertice?(triangle) || triangle.contains_any_vertice?(self) 
-      true
-    elsif side_and_vert_it_contains(triangle) || triangle.side_and_vert_it_contains(self)
-      tr1 = self
-      tr2 = triangle
-      if tr2.side_and_vert_it_contains(tr1) # tr1 is a triangle that has a side that contains tr2's vertice after this method
-        tr1 = triangle
-        tr2 = self
-      end
-      side, vert = tr1.side_and_vert_it_contains(tr2) 
-      sides = Array.new | [tr1.ab, tr1.bc, tr1.ca].delete_if { |e| e.equal?(side) } # other sides
-      verts = Array.new | [tr2.a, tr2.b, tr2.c].delete_if { |e| e.equal?(vert) } # other vertices 
-      if sides.any? { |s| verts.any? { |v| s.contains?(v) } } 
-        true
-      elsif verts.any? { |v| v == tr1.opposite(side) } 
+    elsif Geometry::Triangle.side_and_vert_it_contains(tr1, tr2)
+      side, vert = Geometry::Triangle.side_and_vert_it_contains(tr1, tr2).values_at(:side, :vert)
+      other_sides = side[:tr].sides.reject { |e| e.equal?(side[:val]) } 
+      other_verts = vert[:tr].vertices.reject { |e| e.equal?(vert[:val]) } 
+      if other_sides.any? { |s| other_verts.any? { |v| s.contains?(v) } } || other_verts.any? { |v| v == side[:tr].opposite(side[:val]) } 
         true
       else
         false
       end
-    elsif self == triangle
-      true
     else
       false
     end
   end
 
-  def contains_any_vertice?(triangle)
-    [triangle.a, triangle.b, triangle.c].any? { |v| contains?(v) }
+  def self.contains_any_vertice?(tr1, tr2)
+    [tr1.a, tr1.b, tr1.c].any? { |v| tr2.contains?(v) } || [tr2.a, tr2.b, tr2.c].any? { |v| tr1.contains?(v) }
   end
 
-  def side_and_vert_it_contains(triangle)
-    sides = [@ab, @bc, @ca]
-    verts = [triangle.a, triangle.b, triangle.c]
+  def self.side_and_vert_it_contains(tr1, tr2)
     n = 0
     3.times do
       m = 0
       3.times do 
-        if sides[n].contains?(verts[m])
-          return sides[n], verts[m]
+        if tr1.sides[n].contains?(tr2.vertices[m])
+          return {side: {tr: tr1, val: tr1.sides[n]}, vert: {tr: tr2, val: tr2.vertices[m]}}
+        elsif tr2.sides[n].contains?(tr1.vertices[m])
+          return {side: {tr: tr2, val: tr2.sides[n]}, vert: {tr: tr1, val: tr1.vertices[m]}}
         end
         m += 1
       end
@@ -135,18 +124,6 @@ class Geometry::Triangle
     end
   end
 
-  private
-
-  def not_on_one_line?
-    line = Geometry::Line.new(var1: @a, var2: @b)
-  rescue DegenerateShapeError => e
-    if e.cls == Line
-      !@c.is_on?(line)
-    else
-      raise e
-    end
-  end
-
   def sides_intersect?(triangle)
     if triangle.is_a?(Geometry::Triangle)
       ab = triangle.ab
@@ -157,5 +134,25 @@ class Geometry::Triangle
       end
     end
     false
+  end
+
+  def sides
+    @sides ||= [@ab, @bc, @ca]
+  end
+
+  def vertices
+    @vertices ||= [@a, @b, @c]
+  end
+
+  private
+
+  def not_on_one_line?
+    line = Geometry::Line.new(var1: @a, var2: @b)
+  rescue DegenerateShapeError => e
+    if e.cls == Line
+      !@c.is_on?(line)
+    else
+      raise e
+    end
   end
 end
