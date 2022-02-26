@@ -67,16 +67,43 @@ class Geometry::Triangle
     false
   end
 
-  private
-
-  def not_on_one_line?
-    line = Geometry::Line.new(var1: @a, var2: @b)
-  rescue DegenerateShapeError => e
-    if e.cls == Line
-      !@c.is_on?(line)
+  def self.intersect?(tr1, tr2)
+    raise Geometry::IncompatibleParamsError.new(self.class) if !(tr1.is_a?(Geometry::Triangle) && tr2.is_a?(Geometry::Triangle)) 
+    if tr1.sides_intersect?(tr2) || Geometry::Triangle.contains_any_vertice?(tr1, tr2) || tr1 == tr2
+      true
+    elsif Geometry::Triangle.side_and_vert_it_contains(tr1, tr2)
+      side, vert = Geometry::Triangle.side_and_vert_it_contains(tr1, tr2).values_at(:side, :vert)
+      other_sides = side[:tr].sides.reject { |e| e.equal?(side[:val]) } 
+      other_verts = vert[:tr].vertices.reject { |e| e.equal?(vert[:val]) } 
+      if other_sides.any? { |s| other_verts.any? { |v| s.contains?(v) } } || other_verts.any? { |v| v == side[:tr].opposite(side[:val]) } 
+        true
+      else
+        false
+      end
     else
-      raise e
+      false
     end
+  end
+
+  def self.contains_any_vertice?(tr1, tr2)
+    [tr1.a, tr1.b, tr1.c].any? { |v| tr2.contains?(v) } || [tr2.a, tr2.b, tr2.c].any? { |v| tr1.contains?(v) }
+  end
+
+  def self.side_and_vert_it_contains(tr1, tr2)
+    n = 0
+    3.times do
+      m = 0
+      3.times do 
+        if tr1.sides[n].contains?(tr2.vertices[m])
+          return {side: {tr: tr1, val: tr1.sides[n]}, vert: {tr: tr2, val: tr2.vertices[m]}}
+        elsif tr2.sides[n].contains?(tr1.vertices[m])
+          return {side: {tr: tr2, val: tr2.sides[n]}, vert: {tr: tr1, val: tr1.vertices[m]}}
+        end
+        m += 1
+      end
+      n += 1
+    end
+    nil
   end
 
   def opposite(s)
@@ -93,7 +120,39 @@ class Geometry::Triangle
     elsif s.equal?(@ca)
       @b 
     else
-      raise ArgumentError.new("incorrect parameter entered")
+      raise Geometry::IncompatibleParamsError.new(self.class)
+    end
+  end
+
+  def sides_intersect?(triangle)
+    if triangle.is_a?(Geometry::Triangle)
+      ab = triangle.ab
+      bc = triangle.bc
+      ca = triangle.ca
+      if [ab, bc, ca].any? { |s1| [@ab, @bc, @ca].any? { |s2| s1.intersection_point?(s2).is_a?(Geometry::Point) } }
+        return true
+      end
+    end
+    false
+  end
+
+  def sides
+    @sides ||= [@ab, @bc, @ca]
+  end
+
+  def vertices
+    @vertices ||= [@a, @b, @c]
+  end
+
+  private
+
+  def not_on_one_line?
+    line = Geometry::Line.new(var1: @a, var2: @b)
+  rescue DegenerateShapeError => e
+    if e.cls == Line
+      !@c.is_on?(line)
+    else
+      raise e
     end
   end
 end

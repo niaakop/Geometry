@@ -100,11 +100,11 @@ class Geometry::LineSegment
 
   def x1x2
   # open set. x1 < x1x2 < x2
-    ([@a.x, @b.x].min.next_float...[@a.x, @b.x].max)
+    (([@a.x, @b.x].min + Geometry::MAX_MEASURE_ERROR)...[@a.x, @b.x].max)
   end
 
   def y1y2
   # open set. y1 < y1y2 < y2
-    ([@a.y, @b.y].min.next_float...[@a.y, @b.y].max)
+    ([@a.y, @b.y].min + Geometry::MAX_MEASURE_ERROR...[@a.y, @b.y].max)
   end
 end
