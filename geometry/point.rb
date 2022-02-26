@@ -1,5 +1,8 @@
 require_relative './error.rb'
 require_relative './line.rb'
+require_relative './line_segment.rb'
+require_relative './triangle.rb'
+require_relative './array.rb'
 
 class Geometry::Point
   attr_reader :exist, :x, :y
@@ -7,19 +10,21 @@ class Geometry::Point
   def initialize(x, y)
     @x = x
     @y = y
-    if [x, y].are_kind_of?(Integer, Float)
+    if [x, y].are_kind_of?(Integer, Float, Rational)
       @exist = true
+    @x = x.rationalize
+    @y = y.rationalize
     else
       @exist = false
       raise Geometry::IncompatibleParamsError.new(self.class)
     end
   end
 
-  def is_on?(line)
-    if line.is_a?(Geometry::Line)
-      @y * line.a + @x * line.b + line.c == 0
+  def contained?(shape)
+    if [shape].are_kind_of?(Geometry::Line, Geometry::LineSegment, Geometry::Triangle) 
+      shape.contains?(self)
     else
-      false
+      raise ArgumentError.new("point content in #{shape.class} class is not possible")
     end
   end
 
